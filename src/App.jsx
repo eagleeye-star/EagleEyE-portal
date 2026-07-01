@@ -51,16 +51,29 @@ function AuthScreen({ onAuth }) {
 
   const submit = async () => {
     setErr(""); setLoading(true);
-    if (mode==="login") {
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
-      if (error) { setErr(error.message); setLoading(false); return; }
-      onAuth(data.session);
-    } else {
-      if (!name||!email||!pass) { setErr("Please fill in all required fields."); setLoading(false); return; }
-      const { data, error } = await supabase.auth.signUp({ email, password: pass, options:{ data:{ full_name:name, phone, business_name:biz } } });
-      if (error) { setErr(error.message); setLoading(false); return; }
-      if (data.session) onAuth(data.session);
-      else setErr("Check your email to confirm your account, then log in.");
+    try {
+      if (mode==="login") {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
+        if (error) { setErr(error.message || "Login failed. Check your email and password."); setLoading(false); return; }
+        if (data?.session) onAuth(data.session);
+      } else {
+        if (!name||!email||!pass) { setErr("Please fill in all required fields."); setLoading(false); return; }
+        if (pass.length < 6) { setErr("Password must be at least 6 characters."); setLoading(false); return; }
+        const { data, error } = await supabase.auth.signUp({ email, password: pass, options:{ data:{ full_name:name, phone, business_name:biz } } });
+        if (error) { setErr(error.message || "Registration failed. Please try again."); setLoading(false); return; }
+        if (data?.session) {
+          onAuth(data.session);
+        } else if (data?.user) {
+          // User created, try signing in immediately
+          const { data: loginData, error: loginErr } = await supabase.auth.signInWithPassword({ email, password: pass });
+          if (loginErr) { setErr("Account created! Please sign in."); setMode("login"); }
+          else if (loginData?.session) onAuth(loginData.session);
+        } else {
+          setErr("Something went wrong. Please try signing in instead.");
+        }
+      }
+    } catch(e) {
+      setErr("Connection error. Please check your internet and try again.");
     }
     setLoading(false);
   };
