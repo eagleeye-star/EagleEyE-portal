@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 // ── CONFIG ────────────────────────────────────────────────────────────────────
 const SUPABASE_URL     = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON    = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const ADMIN_EMAIL      = "aifarms101@gmail.com";
+const ADMIN_EMAIL      = "eagleeyefx1@gmail.com";
 const supabase         = createClient(SUPABASE_URL, SUPABASE_ANON);
 
 // ── APP REGISTRY ──────────────────────────────────────────────────────────────
@@ -123,7 +123,7 @@ function AuthScreen({ onAuth }) {
           </button>
 
           <p style={{textAlign:"center",fontSize:12,color:"#7aabcc",marginTop:16,lineHeight:1.7}}>
-            Need help? Contact <strong style={{color:"#c9a84c"}}>0597147460</strong> · <strong style={{color:"#c9a84c"}}>aifarms101@gmail.com</strong>
+            Need help? Contact <strong style={{color:"#c9a84c"}}>0597147460</strong> · <strong style={{color:"#c9a84c"}}>eagleeyefx1@gmail.com</strong>
           </p>
         </div>
       </div>
@@ -141,7 +141,7 @@ function AppCard({ licence, appDef, onCopyKey }) {
   const statusLabel = exp?"Expired":licence.plan==="TRIAL"?`Trial · ${dl}d left`:`Active · ${dl}d left`;
 
   const launch = () => {
-    if (!licence.app_url) { alert("App URL not set yet. Contact aifarms101@gmail.com"); return; }
+    if (!licence.app_url) { alert("App URL not set yet. Contact eagleeyefx1@gmail.com"); return; }
     const url = `${licence.app_url}?key=${encodeURIComponent(licence.licence_key)}`;
     window.open(url, "_blank");
   };
@@ -220,7 +220,7 @@ function ClientDashboard({ profile, licences, onSignOut, showToast }) {
           <div style={{textAlign:"center",padding:"80px 20px",color:"#7aabcc"}}>
             <div style={{fontSize:48,marginBottom:16}}>📦</div>
             <div style={{fontWeight:700,fontSize:18,color:"#e2f0ff",marginBottom:8}}>No apps licensed yet</div>
-            <p style={{fontSize:14,lineHeight:1.7}}>Contact EagleEyE to purchase a licence.<br/>Contact <strong style={{color:"#c9a84c"}}>0597147460</strong> or <strong style={{color:"#c9a84c"}}>aifarms101@gmail.com</strong></p>
+            <p style={{fontSize:14,lineHeight:1.7}}>Contact EagleEyE to purchase a licence.<br/>Contact <strong style={{color:"#c9a84c"}}>0597147460</strong> or <strong style={{color:"#c9a84c"}}>eagleeyefx1@gmail.com</strong></p>
           </div>
         ):(
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(320px,1fr))",gap:16}}>
